@@ -16,7 +16,7 @@
         pgrole: 'xteve'
         intport: '34400'
         extport: '34400'
-        image: 'crobibero/xteve'
+        image: 'crobibero/xteve:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -29,8 +29,8 @@
         pg_labels:
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
-          traefik.frontend.auth.forward.address: '{{gauth}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.entryPoints: 'http,https'
+          traefik.frontend.rule: 'Host:T1-{{pgrole}}.{{domain.stdout}}'
 
     - name: 'Setting PG Volumes'
       set_fact:
@@ -55,7 +55,7 @@
         image: '{{image}}'
         pull: yes
         published_ports:
-          - '{{extport}}:{{intport}}'
+          - '127.0.0.1:{{extport}}:{{intport}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
