@@ -16,7 +16,7 @@
         pgrole: 'dozzle'
         intport: '8080'
         extport: '8383'
-        image: 'amir20/dozzle'
+        image: 'amir20/dozzle:latest'
 
     - name: 'Including cron job'
       include_tasks: '/opt/communityapps/apps/_core.yml'
@@ -25,10 +25,10 @@
     - name: 'Adding Traefik'
       set_fact:
         pg_labels:
-          traefik.frontend.auth.forward.address: '{{gauth}}'
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.rule: 'Host:T1-{{pgrole}}.{{domain.stdout}}'
+          traefik.frontend.redirect.entryPoint: 'https'
 
     - name: 'Setting PG Volumes'
       set_fact:
@@ -52,7 +52,7 @@
         image: '{{image}}'
         pull: yes
         published_ports:
-          - '{{ports.stdout}}{{extport}}:{{intport}}'
+          - '127.0.0.1:{{extport}}:{{intport}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
