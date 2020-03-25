@@ -16,7 +16,7 @@
         pgrole: 'filezilla'
         intport: '5800'
         extport: '5803'
-        image: 'jlesage/filezilla'
+        image: 'jlesage/filezilla:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -39,8 +39,8 @@
         pg_labels:
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
-          traefik.frontend.auth.forward.address: '{{gauth}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.rule: 'Host:T1-{{pgrole}}.{{domain.stdout}}'
+          traefik.frontend.redirect.entryPoint: 'https'
 
     - name: 'Setting PG Volumes'
       set_fact:
@@ -65,7 +65,7 @@
         image: '{{image}}'
         pull: yes
         published_ports:
-          - '{{ports.stdout}}{{extport}}:{{intport}}'
+          - '127.0.0.1:{{extport}}:{{intport}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
@@ -75,7 +75,5 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
-
-##PG-Community
 
 ##PG-Community
