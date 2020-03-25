@@ -29,7 +29,7 @@
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
 
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.rule: 'Host:T1-{{pgrole}}.{{domain.stdout}}'
 
     - name: 'Setting PG Volumes'
       set_fact:
@@ -54,7 +54,7 @@
         image: '{{image}}'
         pull: yes
         published_ports:
-          - '{{ports.stdout}}{{extport}}:{{intport}}'
+          - '127.0.0.1:{{extport}}:{{intport}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
