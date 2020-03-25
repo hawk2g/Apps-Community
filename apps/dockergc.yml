@@ -15,7 +15,7 @@
         pgrole: 'dockergc'
         intport: '1'
         extport: '1'
-        image: 'clockworksoul/docker-gc-cron'
+        image: 'clockworksoul/docker-gc-cron:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
