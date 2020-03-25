@@ -15,7 +15,7 @@
         pgrole: 'bitwarden'
         intport: '80'
         extport: '2489'
-        image: 'mprasil/bitwarden'
+        image: 'mprasil/bitwarden:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -28,7 +28,7 @@
           traefik.enable: 'true'
           traefik.backend: "{{pgrole}}"
           traefik.port: '80'
-          traefik.frontend.rule: 'Host:bit.{{domain.stdout}},{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.rule: 'Host:T1-{{pgrole}}.{{domain.stdout}}'
 
     - name: 'Setting PG Volumes'
       set_fact:
