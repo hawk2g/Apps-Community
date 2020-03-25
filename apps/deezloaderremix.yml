@@ -15,7 +15,7 @@
         pgrole: 'deezloaderremix'
         intport: '1730'
         extport: '1730'
-        image: 'bocki/deezloaderrmx'
+        image: 'bocki/deezloaderrmx:latest'
 
     # CORE (MANDATORY) ############################################################
     - name: 'Always have a backup plan'
@@ -28,7 +28,7 @@
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
           traefik.frontend.auth.forward.address: '{{gauth}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}},{{tldset}}'
+          traefik.frontend.rule: 'Host:T1-{{pgrole}}.{{domain.stdout}}'
 
     - name: 'Setting PG Volumes'
       set_fact:
@@ -51,7 +51,7 @@
         image: '{{image}}'
         pull: yes
         published_ports:
-          - '{{ports.stdout}}{{extport}}:{{intport}}'
+          - '127.0.0.1:{{extport}}:{{intport}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
